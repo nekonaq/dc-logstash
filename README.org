@@ -1,0 +1,46 @@
+# -*- mode: org; buffer-read-only: nil; truncate-lines: nil; fill-column: 84 -*-
+#+STARTUP: showall
+#+OPTIONS: ^:{} toc:nil num:nil date:nil author:nil
+#+BIND: org-html-toplevel-hlevel 3
+
+* dc-logstash
+
+  logstash under docker-compose
+
+** logstash のステータス取得
+
+   : curl 'localhost:9600/?pretty'
+
+   http 入力にデータを POST してみる
+   : curl -XPUT localhost:5045 -d'{"name": "john"}'
+
+
+** パイプラインの設定
+
+   次のふたつのファイルを変更して対応する
+   - =config/logstash/config/pipelines.yml=
+   - =config/logstash/pipeline/*=
+
+
+** elasticsearch の接続先エンドポイント
+
+   - パイプラインの設定で対応する。
+
+
+** logstash のエンドポイント
+
+   デフォルトは 0.0.0.0:9600
+
+   変更するには:
+
+   1. 設定ファイル =docker-compose.yml= の =ports= で設定する。
+      (設定ファイル =.env= で対応)
+
+      - ネットワーク・モード =host= でない場合に使える。
+      - ネットワーク・モード =host= である場合は使えない。
+
+
+   2. 環境設定ファイル =config/logstash.env= で =HTTP_HOST= =HTTP_PORT= を設定する。
+
+      - ネットワーク・モード =host= でない場合に使える。
+      - ネットワーク・モード =host= である場合に使える。

@@ -1,0 +1,8 @@
+.python-version
+/static*
+/media*
+/data*
+/secrets*
+/log*
+/src*
+/python

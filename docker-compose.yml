@@ -1,0 +1,19 @@
+---
+version: '3'
+services:
+  logstash:
+    image: docker.elastic.co/logstash/logstash:$LOGSTASH_VERSION
+    # https://www.elastic.co/guide/en/logstash/6.8/docker.html
+    # https://github.com/elastic/dockerfiles
+    # https://www.docker.elastic.co/
+    env_file: config/logstash.env
+    # network_mode: bridge
+    # extra_hosts:
+    #   - 'elasticsearch:$ELASTICSEARCH_HOST'
+    # ports:
+    #   - '$EXPOSE_LOGSTASH:9600'            # logstash metrics REST api
+    #   - '$EXPOSE_LOGSTASH_BEATS:5044'
+    volumes:
+      - ./config/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml:ro
+      - ./config/logstash/pipeline:/usr/share/logstash/pipeline:ro
+    network_mode: host
